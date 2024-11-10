@@ -34,6 +34,18 @@ async function run() {
             console.log(newProduct);
             const result = await techbybeCollection.insertOne(newProduct);
             res.send(result);
+        });
+
+        app.get('/products', async (req, res) => {
+            const cursor = techbybeCollection.find();
+            const result = await cursor.toArray();
+            res.send(result);
+        });
+
+        app.post('/brands', async (req, res) => {
+            const newBrands = req.body;
+            const result = await techbybeCollection.insertOne(newBrands);
+            res.send(result);
         })
 
         // Send a ping to confirm a successful connection
