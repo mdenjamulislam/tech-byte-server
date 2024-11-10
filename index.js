@@ -27,24 +27,32 @@ async function run() {
         await client.connect();
 
         // database with collection 
-        const techbybeCollection = client.db("techbyte").collection("products");
+        const techbybeDB = client.db("techbyte");
+        const productsCollection = techbybeDB.collection("products");
+        const brandCollection = techbybeDB.collection("brands");
 
         app.post('/product', async (req, res) => {
             const newProduct = req.body;
             console.log(newProduct);
-            const result = await techbybeCollection.insertOne(newProduct);
+            const result = await productsCollection.insertOne(newProduct);
             res.send(result);
         });
 
         app.get('/products', async (req, res) => {
-            const cursor = techbybeCollection.find();
+            const cursor = productsCollection.find();
             const result = await cursor.toArray();
             res.send(result);
         });
 
         app.post('/brands', async (req, res) => {
             const newBrands = req.body;
-            const result = await techbybeCollection.insertOne(newBrands);
+            const result = await brandCollection.insertOne(newBrands);
+            res.send(result);
+        });
+
+        app.get('/brands', async (req, res) => {
+            const cursor = brandCollection.find();
+            const result = await cursor.toArray();
             res.send(result);
         })
 
